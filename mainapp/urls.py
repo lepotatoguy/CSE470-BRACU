@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('register/', Register.as_view(), name='register'),
     path('', Index.as_view(), name='index'),
+    path('profile/', Profile.as_view(), name='profile'),
     path('transaction/<int:pk>', TransactionDetail.as_view(),
          name='transaction_detail'),
     path('transaction-create/', TransactionCreate.as_view(),

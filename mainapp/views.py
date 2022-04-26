@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
+from django.contrib.auth import get_user_model
+
 
 class Login(LoginView):
     template_name = 'mainapp/login.html'
@@ -45,7 +47,8 @@ class Register(FormView):
 
 
 class Index(LoginRequiredMixin, ListView):
-    model = Finance  # database
+    model = Transaction  # database
+    # model = get_user_model()
     context_object_name = 'transactions'  # context object inside the html
     template_name = 'mainapp/index.html'  # specifying template name
 
@@ -53,40 +56,41 @@ class Index(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['transactions'] = context['transactions'].filter(
             user=self.request.user)  # total transactions for a user
-        context['count'] = context['transactions'].filter(
-            card_due=False).count()  # card due transactionss
+        # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
         return context
 
 
 class TransactionDetail(DetailView):
-    model = Finance
+    model = Transaction
     context_object_name = 'transaction'
     template_name = 'mainapp/transaction_detail.html'
 
 
 class TransactionCreate(CreateView):
-    model = Finance
-    fields = ['status', 'remarks']  # fixed fields
+    model = Transaction
+    fields = ['title', 'desc', 'remarks']  # fixed fields
+    # fields = ['user', 'status', 'remarks', 'cash_remaining']  # fixed fields
     # fields = '__all__'  # all fields
     success_url = reverse_lazy('index')  # redirect after successful creation
     context_object_name = 'transaction_create'
     template_name = 'mainapp/transaction_form.html'
 
-    def form_invalid(self, form):
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super(TransactionCreate, self).form_valid(form)
 
 
 class TransactionUpdate(UpdateView):
-    model = Finance
+    model = Transaction
     # fields = '__all__'  # all fields
-    fields = ['status', 'remarks']  # fixed fields
+    # fields = ['status', 'remarks', 'cash_remaining']  # fixed fields
+    fields = ['title', 'desc', 'remarks', 'cash']  # fixed fields
     success_url = reverse_lazy('index')  # redirect after successful creation
     template_name = 'mainapp/transaction_form.html'
 
 
 class TransactionDelete(DeleteView):
-    model = Finance
+    model = Transaction
     context_object_name = 'transaction'
     success_url = reverse_lazy('index')  # redirect after successful creation
     # template_name = 'mainapp/transaction_form.html'
@@ -100,3 +104,16 @@ class TransactionDelete(DeleteView):
 #     paramters = {'user_list': user_list, }
 #     return render(request, 'index.html', paramters)
 #     # return HttpResponse(output)
+
+class Profile(LoginRequiredMixin, ListView):
+    model = Finance  # database
+    # model = get_user_model()
+    context_object_name = 'finance'  # context object inside the html
+    template_name = 'mainapp/profile.html'  # specifying template name
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['finances'] = context['finance'].filter(
+            user=self.request.user)  # total transactions for a user
+        # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
+        return context

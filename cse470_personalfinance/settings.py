@@ -116,6 +116,8 @@ USE_TZ = True
 
 LOGIN_URL = 'login'
 
+# AUTH_USER_MODEL = 'mainapp.User'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
