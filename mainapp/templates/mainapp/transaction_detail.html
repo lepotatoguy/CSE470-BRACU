@@ -9,7 +9,15 @@
 </head>
 
 <body>
-    <h1>Details: {{transaction.desc}}</h1>
+    <h1>Title: {{transaction.title}}</h1>
+    <p>
+        Description: {{transaction.desc}}
+    </p>
+    {% if transaction.remarks %}
+    <p>Remarks: {{transaction.remarks}}</p>
+    {% endif %}
+    <p>Transaction Amount: {{transaction.cash_transaction}}</p>
+    <p>Time of Transaction: {{transaction.created}}</p>
 </body>
 
 </html>
