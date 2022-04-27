@@ -11,3 +11,10 @@ Personal Finance Portfolio Management System
 
 ## This project consists of:
 * Django Project
+
+## Features:
+* Adding Transactions
+* Viewing Transactions
+* Deleting Transactions
+* Updating Transactions
+* Profile Info
