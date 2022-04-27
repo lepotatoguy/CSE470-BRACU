@@ -55,19 +55,20 @@ class Transaction(models.Model):
     def __str__(self):
         return self.title
 # https://stackoverflow.com/questions/29166148/how-to-update-a-model-instance-in-another-model-save-method-in-django
+# https://stackoverflow.com/questions/57564746/how-to-solve-not-null-constraint-failed-transactions-withdrawal-user-id
 
-    def save(self, *args, **kwargs):
-        try:
-            finance_user = Finance.objects.get(
-                user=self.User
-            )
-            if self.id is None:
-                finance_user.cash = finance_user.cash - self.cash_transaction
-                # self.type = voucher_type
-                finance_user.save()
-        except Exception:
-            print("Error")
-        super(Transaction, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     try:
+    #         finance_user = Finance.objects.get(
+    #             user=self.User
+    #         )
+    #         if self.id is None:
+    #             finance_user.cash = finance_user.cash - self.cash_transaction
+    #             # self.type = voucher_type
+    #             finance_user.save()
+    #     except Exception:
+    #         print("Error")
+    #     super(Transaction, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['title']

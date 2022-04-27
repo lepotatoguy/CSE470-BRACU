@@ -57,7 +57,9 @@ class Index(LoginRequiredMixin, ListView):
         context['transactions'] = context['transactions'].filter(
             user=self.request.user)  # total transactions for a user
         # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
-        return {'context': context, 'profile': Finance.objects.filter(user=self.request.user)}  
+        # return {'context': context, 'profile': Finance.objects.filter(user=self.request.user)}
+        context['profile'] = Finance.objects.filter(user=self.request.user)
+        return context
 
 
 class TransactionDetail(DetailView):
@@ -68,14 +70,17 @@ class TransactionDetail(DetailView):
 
 class TransactionCreate(CreateView):
     model = Transaction
-    fields = ['title', 'desc', 'remarks']  # fixed fields
-    # fields = ['user', 'status', 'remarks', 'cash_remaining']  # fixed fields
+    # fields = ['title', 'desc', 'remarks', 'cash_transaction']  # fixed fields
+    fields = ['finance', 'title', 'desc', 'remarks',
+              'cash_transaction']  # fixed fields
     # fields = '__all__'  # all fields
+
     success_url = reverse_lazy('index')  # redirect after successful creation
-    context_object_name = 'transaction_create'
     template_name = 'mainapp/transaction_form.html'
 
     def form_valid(self, form):
+        # this code not working accordingly
+        # form.instance.finance = self.request.finance.POST
         form.instance.user = self.request.user
         return super(TransactionCreate, self).form_valid(form)
 
@@ -84,7 +89,7 @@ class TransactionUpdate(UpdateView):
     model = Transaction
     # fields = '__all__'  # all fields
     # fields = ['status', 'remarks', 'cash_remaining']  # fixed fields
-    fields = ['title', 'desc', 'remarks', 'cash']  # fixed fields
+    fields = ['title', 'desc', 'remarks', 'cash_transaction']  # fixed fields
     success_url = reverse_lazy('index')  # redirect after successful creation
     template_name = 'mainapp/transaction_form.html'
 
@@ -116,7 +121,7 @@ class Profile(LoginRequiredMixin, ListView):
         context['finance'] = context['finance'].filter(
             user=self.request.user)  # total transactions for a user
         # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
-        return context    
+        return context
 
 
 class ProfileCreate(CreateView):
