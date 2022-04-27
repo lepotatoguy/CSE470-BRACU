@@ -57,7 +57,7 @@ class Index(LoginRequiredMixin, ListView):
         context['transactions'] = context['transactions'].filter(
             user=self.request.user)  # total transactions for a user
         # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
-        return context
+        return {'context': context, 'profile': Finance.objects.filter(user=self.request.user)}  
 
 
 class TransactionDetail(DetailView):
@@ -113,7 +113,22 @@ class Profile(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['finances'] = context['finance'].filter(
+        context['finance'] = context['finance'].filter(
             user=self.request.user)  # total transactions for a user
         # context['count'] = context['transactions'].filter(title=True).count()  # card due transactionss
-        return context
+        return context    
+
+
+class ProfileCreate(CreateView):
+    model = Finance
+    fields = ['first_name', 'last_name', 'email', 'phone_number',
+              'cash', 'card_limit', 'loan', 'due']  # fixed fields
+    # fields = ['user', 'status', 'remarks', 'cash_remaining']  # fixed fields
+    # fields = '__all__'  # all fields
+    success_url = reverse_lazy('index')  # redirect after successful creation
+    context_object_name = 'profile_create'
+    template_name = 'mainapp/profile_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ProfileCreate, self).form_valid(form)

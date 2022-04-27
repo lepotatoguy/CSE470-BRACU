@@ -11,6 +11,8 @@ urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('', Index.as_view(), name='index'),
     path('profile/', Profile.as_view(), name='profile'),
+    path('profile-create/', ProfileCreate.as_view(),
+         name='profile-create'),
     path('transaction/<int:pk>', TransactionDetail.as_view(),
          name='transaction_detail'),
     path('transaction-create/', TransactionCreate.as_view(),

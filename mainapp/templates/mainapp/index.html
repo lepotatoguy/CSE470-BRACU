@@ -11,9 +11,11 @@
 <body>
     {% if request.user.is_authenticated %}
     <a href="{% url 'logout' %}">Logout</a>
-    <p>{{request.user}}</p>
-    {% else %}
-    <a href="{% url 'login' %}">Login</a> {% endif %}
+    {% if not profile %}
+    <h1>To getting started, please create your Profile <a href="{% url 'profile-create' %}">here</a>.</h1>
+    {% else %} 
+    {% comment %} <p>{{profile}}</p> {% endcomment %}
+    <p> Your Profile: <a href="{% url 'profile' %}">{{request.user}}</a> </p>
     <hr>
     <h1>My Transaction List</h1>
     <a href="{% url 'transaction-create' %}">Add Task</a>
@@ -37,6 +39,11 @@
         {% empty %}
         <h3>No Transactions Yet</h3> {% endfor %}
     </table>
+    {% endif %} 
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}
+    
 </body>
 
 </html>

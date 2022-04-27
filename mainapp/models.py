@@ -27,13 +27,12 @@ class Finance(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=50, unique=True, primary_key=True)
-    phone_number = models.CharField(max_length=11)
-    cash = models.CharField(max_length=250, default='0')
-    card_limit = models.CharField(max_length=250, default='-1')
-    loan = models.CharField(max_length=250, default='-1')
-    due = models.CharField(max_length=250, default='-1')
+    phone_number = models.IntegerField(blank=False)
+    cash = models.FloatField(default='0')
+    card_limit = models.FloatField(default='-1')
+    loan = models.FloatField(default='-1')
+    due = models.FloatField(default='-1')
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -55,6 +54,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return self.title
+# https://stackoverflow.com/questions/29166148/how-to-update-a-model-instance-in-another-model-save-method-in-django
 
     def save(self, *args, **kwargs):
         try:
