@@ -4,6 +4,8 @@ from django.urls import path
 from .views import *
 
 from django.contrib.auth.views import LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
@@ -21,4 +23,4 @@ urlpatterns = [
          name='transaction-update'),
     path('transaction-delete/<int:pk>', TransactionDelete.as_view(),
          name='transaction-delete'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

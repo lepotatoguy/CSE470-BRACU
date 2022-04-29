@@ -1,0 +1,77 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link href="{% static 'css/bootstrap.min.css' %}" >  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>  
+</head>
+
+<body>
+    <div class="alert alert-primary" role="alert">
+        A simple primary alert—check it out!
+      </div>
+      <div class="alert alert-secondary" role="alert">
+        A simple secondary alert—check it out!
+      </div>
+      <div class="alert alert-success" role="alert">
+        A simple success alert—check it out!
+      </div>
+      <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+      </div>
+      <div class="alert alert-warning" role="alert">
+        A simple warning alert—check it out!
+      </div>
+      <div class="alert alert-info" role="alert">
+        A simple info alert—check it out!
+      </div>
+      <div class="alert alert-light" role="alert">
+        A simple light alert—check it out!
+      </div>
+      <div class="alert alert-dark" role="alert">
+        A simple dark alert—check it out!
+      </div>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout</a>
+    {% if not profile %}
+    <h1>To getting started, please create your Profile <a href="{% url 'profile-create' %}">here</a>.</h1>
+    {% else %} 
+    {% comment %} <p>{{profile}}</p> {% endcomment %}
+    <p> Your Profile: <a href="{% url 'profile' %}">{{request.user}}</a> </p>
+    <hr>
+    <h1>My Transaction List</h1>
+    <a href="{% url 'transaction-create' %}">Add Task</a>
+    <table>
+        <tr>
+            <th>Items</th>
+            <th></th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        {% for stuff in transactions%}
+        <tr>
+            <th>{{stuff.title}}</th>
+            <th>
+                <a href="{% url 'transaction_detail' stuff.id %}">View</a>
+                <a href="{% url 'transaction-update' stuff.id %}">Edit</a>
+                <a href="{% url 'transaction-delete' stuff.id %}">Delete</a>
+            </th>
+        </tr>
+        {% empty %}
+        <h3>No Transactions Yet</h3> {% endfor %}
+    </table>
+    {% endif %} 
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}
+    
+</body>
+
+</html>
