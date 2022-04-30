@@ -1,33 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'mainapp/base.html' %}{% load static %} {% block content %} {% if request.user.is_authenticated %}
+<a href="{% url 'logout' %}">Logout</a>
+<p>{{request.user}}</p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<a href="{% url 'index' %}">Go Back</a> {% else %}
+<a href="{% url 'login' %}">Login</a> {% endif %}
+<hr>
+<h1>My Profile</h1>
 
-<body>
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'logout' %}">Logout</a>
-    <p>{{request.user}}</p>
-
-    <a href="{% url 'index' %}">Go Back</a> {% else %}
-    <a href="{% url 'login' %}">Login</a> {% endif %}
-    <hr>
-    <h1>My Profile</h1>
-
-    {% for stuff in finance%}
-    <p><b>First Name:</b> {{stuff.first_name}}</p>
-    <p><b>Last Name:</b> {{stuff.last_name}}</p>
-    <p><b>Email:</b> {{stuff.email}}</p>
-    <p><b>Username:</b> {{stuff.user.username}}</p>
-    <p><b>Cash:</b> {% if stuff.cash == -1.0 %} 0.0 {%else %} {{stuff.cash}} {% endif %}</p>
-    <p><b>Current Card Limit:</b>{{stuff.card_limit}}</p>
-    <p><b>Total Loan:</b>{% if stuff.loan == -1.0 %} 0.0 {%else %} {{stuff.loan}} {% endif %}</p>
-    <p><b>Total Due:</b>{% if stuff.due == -1.0 %} 0.0 {%else %} {{stuff.due}} {% endif %}</p> {% endfor %}
-
-</body>
-
-</html>
+{% for stuff in finance%}
+<p><b>First Name:</b> {{stuff.first_name}}</p>
+<p><b>Last Name:</b> {{stuff.last_name}}</p>
+<p><b>Email:</b> {{stuff.email}}</p>
+<p><b>Username:</b> {{stuff.user.username}}</p>
+<p><b>Cash:</b> {% if stuff.cash == -1.0 %} 0.0 {%else %} {{stuff.cash}} {% endif %}</p>
+<p><b>Current Card Limit:</b>{{stuff.card_limit}}</p>
+<p><b>Total Loan:</b>{% if stuff.loan == -1.0 %} 0.0 {%else %} {{stuff.loan}} {% endif %}</p>
+<p><b>Total Due:</b>{% if stuff.due == -1.0 %} 0.0 {%else %} {{stuff.due}} {% endif %}</p> {% endfor %} {% endblock content %}

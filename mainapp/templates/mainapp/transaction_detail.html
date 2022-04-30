@@ -1,23 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'mainapp/base.html' %}{% load static %} {% block content %}
+<h1>Title: {{transaction.title}}</h1>
+<p>
+    Description: {{transaction.desc}}
+</p>
+{% if transaction.remarks %}
+<p>Remarks: {{transaction.remarks}}</p>
+{% endif %}
+<p>Transaction Amount: {{transaction.cash_transaction}}</p>
+<p>Time of Transaction: {{transaction.created}}</p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <h1>Title: {{transaction.title}}</h1>
-    <p>
-        Description: {{transaction.desc}}
-    </p>
-    {% if transaction.remarks %}
-    <p>Remarks: {{transaction.remarks}}</p>
-    {% endif %}
-    <p>Transaction Amount: {{transaction.cash_transaction}}</p>
-    <p>Time of Transaction: {{transaction.created}}</p>
-</body>
-
-</html>
+{% endblock content %}
